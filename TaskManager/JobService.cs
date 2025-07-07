@@ -1,4 +1,6 @@
-﻿namespace TaskManager;
+﻿using Models;
+
+namespace TaskManager;
 
 public class JobService : IJobService
 {
