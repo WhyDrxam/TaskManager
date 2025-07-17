@@ -10,6 +10,8 @@ public class Program
         job.ChangeCategory(JobCategory.Work);
         job.Title = "test";
         job.AddTag("TAGTAGTAG");
+        job.AddTag("dfiugkjdfg");
+        job.AddTag("dfiphjpofgkhngmnkmgn");
         Console.WriteLine(job);
     }
 }

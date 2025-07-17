@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace TaskManager;
+namespace Services;
 
 
 public interface IJobService

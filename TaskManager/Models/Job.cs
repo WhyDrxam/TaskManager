@@ -128,7 +128,7 @@ public class Job
 /// <returns>возвращает строку со статусом</returns>
     public override string ToString()
     {
-        
-        return $"Job {Id}: {Title} ({Status}, Tags: )";
+        var tags = string.Join(",", Tags);
+        return $"Job {Id}: {Title} ({Status}, Tags: {tags} )";
     }
 }

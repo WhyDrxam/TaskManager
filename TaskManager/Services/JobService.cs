@@ -1,9 +1,15 @@
 ﻿using Models;
 
-namespace TaskManager;
+namespace Services;
 
 public class JobService : IJobService
 {
+    public JobService()
+    {
+        jobs = new List<Job>();
+    }
+
+    private List<Job> jobs;
     public List<Job> GetAllJobs()
     {
         throw new NotImplementedException();
@@ -16,7 +22,7 @@ public class JobService : IJobService
 
     public void AddJob(Job job)
     {
-        throw new NotImplementedException();
+        jobs.Add(job);
     }
 
     public void UpdateJob(Job job)
