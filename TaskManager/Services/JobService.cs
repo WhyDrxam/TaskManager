@@ -38,49 +38,59 @@ public class JobService : IJobService
     {
         if (job == null)
         {
-            throw new ArgumentNullException();
+            throw new ArgumentNullException(nameof(job));
         }
-
+        
+        if (job.Id == Guid.Empty)
+        {
+            throw new ArgumentException("Задачи с пустым Id не должно быть!", nameof(job));
+        }
+        
         if (_jobs.Any(j => j.Id == job.Id))
         {
-            throw new ArgumentException("Задача с таким номером уже существует!");
+            throw new ArgumentException("Задача с таким номером уже существует!", nameof(job));
         }
+        
         _jobs.Add(job);
-    }
-/// <summary>
-/// обновляет задачу из списка задач
-/// </summary>
-/// <param name="id">уникальный номер задачи котору надо обновить</param>
-/// <param name="updatedJob">обновленная задача</param>
-/// <exception cref="ArgumentNullException">если задачи нет, ошибка</exception>
-    public void UpdateJob(Guid id, out Job updatedJob)
-    {
-        var currentJob = _jobs.FirstOrDefault(j => j.Id == id);
-        if (currentJob == null)
-        {
-            throw new ArgumentNullException($"Задачи с {id} Id не существует");
-        }
-
         
     }
-/// <summary>
-/// удаляет задач из списка задач
-/// </summary>
-/// <param name="job">задача которую надо удалить</param>
-/// <exception cref="ArgumentNullException">если задача пуста, ошибка</exception>
-    public void DeleteJob(Job job)
+
+    /// <summary>
+    /// Пытается обновить задачу с указанным ID
+    /// </summary>
+    /// <returns>true если задача была обновлена, false если задача не найдена</returns>
+    
+    public bool UpdateJob(Guid id, Job updatedJob)
     {
-        if (job == null)
+        if (updatedJob == null)
         {
-            throw new ArgumentNullException("Такой задачи не существует");
+            throw new ArgumentNullException(nameof(updatedJob));
         }
 
-        var jobToDelete = _jobs.FirstOrDefault(j => j.Id == job.Id);
-        if (job is not null)
+        var jobYoUpdateIndex = _jobs.FindIndex(j => j.Id == id);
+        if (jobYoUpdateIndex == -1)
         {
-            _jobs.Remove(jobToDelete);
-           
+            return false;
         }
+
+        _jobs[jobYoUpdateIndex] = updatedJob;
+        return true;
+    }
+/// <summary>
+/// Удаляет задачу по уникальному Id
+/// </summary>
+/// <param name="id">параметр по которому будет производиться поиск задачи</param>
+/// <exception cref="ArgumentNullException">задача не найдена</exception>
+    public void DeleteJob(Guid id)
+    {
+        var jobToDelete = _jobs.FirstOrDefault(j => j.Id == id);
+        if (jobToDelete == null)
+        {
+            throw new ArgumentNullException("Задача не должна быть пустой!");
+        }
+        
+        _jobs.Remove(jobToDelete);
+      
     }
 /// <summary>
 /// возращает копию списка задач по статусу
