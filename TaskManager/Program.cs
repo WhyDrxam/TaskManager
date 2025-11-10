@@ -11,7 +11,6 @@ public class Program
         job.Title = "test";
         JobService service = new JobService();
         service.AddJob(job);
-        service.DeleteJob(job);
         
     }
     

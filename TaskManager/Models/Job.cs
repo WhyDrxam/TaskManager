@@ -11,13 +11,13 @@ public class Job
     /// <summary>
     /// Уникальный Id для каждой Задачи
     /// </summary>
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    public  Guid   Id { get; private set; } = Guid.NewGuid();
     private string title;
 /// <summary>
 /// Св-во проверяет на пустое значение сеттер
 /// </summary>
 /// <exception cref="ArgumentException">Ошибка при пустом значении</exception>
-    public string Title
+    public  string  Title
     {
         get => title;
         set
@@ -32,21 +32,21 @@ public class Job
 /// <summary>
 /// Описание Задачи
 /// </summary>
-    public string? Description { get; private set; }
+    public  string? Description { get; private set; }
     /// <summary>
     /// Когда задача была создана
     /// </summary>
-    public DateTime CreatedDate { get; } = DateTime.Now;
+    public  DateTime CreatedDate { get; } = DateTime.Now;
     /// <summary>
     /// дедлайн задачи
     /// </summary>
-    public DateTime? DueDate { get; set; }
+    public  DateTime? DueDate { get; set; }
     private int priority;
     /// <summary>
     /// Приоритетность задачи(значение не должнобыть меньше 0)
     /// </summary>
     /// <exception cref="ArgumentException">Ошибка при значении менее 0</exception>
-    public int Priority
+    public  int Priority
     {
         get => priority;
         set
@@ -62,21 +62,21 @@ public class Job
     /// <summary>
     /// статус задачи(ToDo по умолчанию)
     /// </summary>
-    public JobStatus Status { get; private set; } = JobStatus.ToDo;
+    public  JobStatus Status { get; private set; } = JobStatus.ToDo;
 /// <summary>
 /// Категория задания
 /// Значения: работа, для себя, для учебы
 /// </summary>
-    public JobCategory Category { get; private set; } = JobCategory.Personal;
+    public  JobCategory Category { get; private set; } = JobCategory.Personal;
 /// <summary>
 /// список хранения тегов
 /// </summary>
-    public List<string> Tags { get; set; }
+    public  List<string> Tags { get; set; }
 /// <summary>
 /// меняет категорию задчи
 /// </summary>
 /// <param name="category">новая категория задачи из доступных ктегорий</param>
-    public void ChangeCategory(JobCategory NewCategory)
+    public  void ChangeCategory(JobCategory NewCategory)
     {
         Category = NewCategory;
     }
@@ -85,7 +85,7 @@ public class Job
     /// </summary>
     /// <param name="category">числовое представление категории</param>
     /// <exception cref="ArgumentException">ошибка если категорию отсутсвует</exception>
-    public void ChangeCategory(int category)
+    public  void ChangeCategory(int category)
     {
         bool isValid = Enum.IsDefined(typeof(JobCategory), category);
         if (!isValid)
@@ -99,7 +99,7 @@ public class Job
 /// </summary>
 /// <param name="category">строковое представление категории</param>
 /// <exception cref="ArgumentException">ошибка если категорию отсутсвует</exception>
-    public void ChangeCategory(string category)
+    public  void ChangeCategory(string category)
     {
         bool isValid = Enum.TryParse<JobCategory>(category, ignoreCase: true, out JobCategory newCategory);
         if (!isValid)
@@ -114,7 +114,7 @@ public class Job
 /// </summary>
 /// <param name="tag">строка тега который добавляется</param>
 /// <exception cref="ArgumentException">ошибка если значение пустое или только из пробелов</exception>
-    public void AddTag(string tag)
+    public  void AddTag(string tag)
     {
         if (string.IsNullOrWhiteSpace(tag))
         {
