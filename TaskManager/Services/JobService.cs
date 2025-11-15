@@ -67,13 +67,13 @@ public class JobService : IJobService
             throw new ArgumentNullException(nameof(updatedJob));
         }
 
-        var jobYoUpdateIndex = _jobs.FindIndex(j => j.Id == id);
-        if (jobYoUpdateIndex == -1)
+        var jobToUpdateIndex = _jobs.FindIndex(j => j.Id == id);
+        if (jobToUpdateIndex == -1)
         {
             return false;
         }
 
-        _jobs[jobYoUpdateIndex] = updatedJob;
+        _jobs[jobToUpdateIndex] = updatedJob;
         return true;
     }
 /// <summary>
