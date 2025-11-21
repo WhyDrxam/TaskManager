@@ -31,8 +31,9 @@ public class FileStorage : IFileStorage
         {
             throw new ArgumentException("Неверный формат файла, должен быть .json", nameof(extension));
         }
-        
-        using (var stream = File.Open(filePath, FileMode.OpenOrCreate))
+
+        FileInfo fileInfo = new FileInfo(filePath);
+        using (var stream = fileInfo.Open( FileMode.OpenOrCreate))
         {
             JsonSerializer.Serialize(stream, tasks, options);
         }
@@ -54,9 +55,15 @@ public class FileStorage : IFileStorage
         {
             throw new FileNotFoundException("Такого файла не сществует", nameof(filePath));
         }
-
-        var fReader = File.ReadAllText(filePath);
-        var content = JsonSerializer.Deserialize<List<Job>>(fReader, options); 
-        return content ?? [];
+        FileInfo fileInfo = new FileInfo(filePath);
+        using (var stream = fileInfo.Open( FileMode.OpenOrCreate))
+        {
+            var content = JsonSerializer.Deserialize<List<Job>>(stream, options);
+            return content ?? [];
+        }
+        
+        // var fReader = File.ReadAllText(filePath);
+        // var content = JsonSerializer.Deserialize<List<Job>>(fReader, options); 
+        // return content ?? [];
     }
 }
