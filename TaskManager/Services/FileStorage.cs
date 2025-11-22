@@ -14,19 +14,19 @@ public class FileStorage : IFileStorage
     };
     public void SaveTasks(List<Job> tasks, string filePath)
     {
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            throw new ArgumentNullException("Путь к папке не должен быть пустым", nameof(filePath));
+        }
         
         
-        var extension = Path.GetExtension(filePath);
         if (tasks ==  null || tasks.Count <= 0 )
         {
             throw new ArgumentNullException("Список не должен быть пустым!", nameof(tasks));
         }
 
-        if (string.IsNullOrWhiteSpace(filePath))
-        {
-            throw new ArgumentNullException("Путь к папке не должен быть пустым", nameof(filePath));
-        }
-
+        
+        var extension = Path.GetExtension(filePath);
         if (extension != ".json")
         {
             throw new ArgumentException("Неверный формат файла, должен быть .json", nameof(extension));
@@ -41,20 +41,29 @@ public class FileStorage : IFileStorage
 
     public List<Job> LoadTasks(string filePath)
     {
-        var extension = Path.GetExtension(filePath);
-        if (extension != ".json")
-        {
-            throw new ArgumentException("Неверный формат файла, должен быть .json", nameof(extension));
-        }
+        
         if (string.IsNullOrWhiteSpace(filePath))
         {
             throw new ArgumentNullException("Путь к папке не должен бть пустым", nameof(filePath));
         }
 
-        if (!File.Exists(filePath))
+        if (!Path.Exists(filePath))
         {
-            throw new FileNotFoundException("Такого файла не сществует", nameof(filePath));
+            throw new ArgumentException("Указаный путь не существует", nameof(filePath));
         }
+
+        
+        var extension = Path.GetExtension(filePath);
+        if (extension != ".json")
+        {
+            throw new ArgumentException($"Неверный формат файла, должен быть .json. Переданное расширение {extension}");
+        }
+        
+
+        // if (!File.Exists(filePath))
+        // {
+        //     throw new FileNotFoundException("Такого файла не сществует", nameof(filePath));
+        // }
         FileInfo fileInfo = new FileInfo(filePath);
         using (var stream = fileInfo.Open( FileMode.OpenOrCreate))
         {
