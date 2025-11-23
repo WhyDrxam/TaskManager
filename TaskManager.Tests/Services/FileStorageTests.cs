@@ -1,4 +1,5 @@
-﻿using Services;
+﻿using Models;
+using Services;
 
 namespace TaskManager.Tests.Services.Tests;
 
@@ -12,8 +13,59 @@ public class FileStorageTests
     private FileStorage fStorage;
     //НА СЕЙВ В ДЖСОНЕ
     //тест на входные параметры (путь нулл, путь пустой, файл не джсон, строка не путь)
-    //коллекции пустые или нулл
+    //коллекции пустые или нулл(вроде сделал)
+    [Theory]
+    [InlineData("test.data")]
+    public void SaveTasks_PathIsInvalid_ThrowsArgumentExeption(string path)
+    {
+        //arrange
+        List<Job> list = new List<Job>
+        {
+            new Job(),
+            new Job()
+        };
+        var filePath = Path.Combine(Path.GetTempPath(),path);
+        File.Create(filePath);
+        
+        //act and assert
+        Assert.Throws<ArgumentException>(() => fStorage.SaveTasks(list, filePath));
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void SaveTasks_PathIsNullOrEmpty_ThrowsArgumentNullExeption(string filePath)
+    {
+        //Arrange
+        List<Job> list = new List<Job>
+        {
+            new Job(),
+            new Job()
+        };
+        //Act and assert
+        Assert.Throws<ArgumentNullException>(() => fStorage.SaveTasks(list, filePath));
+    }
     
+    [Fact]
+    public void SaveTasks_ListIsNull_ThrowsArgumentNullExepction()
+    {
+        //Arrange
+        List<Job> list = null;
+        var filePath = Path.Combine(Path.GetTempPath(), "test.json");
+        File.Create(filePath);
+        //Act and Assert
+        Assert.Throws<ArgumentNullException>(() => fStorage.SaveTasks(list, filePath));
+    }
+    [Fact]
+    public void SaveTasks_ListIsEmpty_ThrowsArgumentExepction()
+    {
+        //Arrange
+        List<Job> list = new();
+        var filePath = Path.Combine(Path.GetTempPath(), "test.json");
+        File.Create(filePath);
+        //Act and Assert
+        Assert.Throws<ArgumentException>(() => fStorage.SaveTasks(list, filePath));
+    }
     
     //НА ЛОАД
     //тест на входные параметры (путь нулл, путь пустой, файл не джсон, строка не путь)

@@ -20,9 +20,14 @@ public class FileStorage : IFileStorage
         }
         
         
-        if (tasks ==  null || tasks.Count <= 0 )
+        if (tasks ==  null)
         {
             throw new ArgumentNullException("Список не должен быть пустым!", nameof(tasks));
+        }
+
+        if (tasks.Count <= 0)
+        {
+            throw new ArgumentException($"Коллекция не должна быть пустой{tasks.Count}");
         }
 
         
